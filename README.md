@@ -1,20 +1,25 @@
 # Azure Cosmos DB Cassandra API - Datastax Spark Connector Sample
-This maven project provides samples and best practices for using the [DataStax Spark Cassandra Connector](https://github.com/datastax/spark-cassandra-connector) against the [CosmosDB Cassandra API](https://docs.microsoft.com/en-us/azure/cosmos-db/cassandra-introduction).
-For the purposes of providing and end-to-end sample, we've made use of an Azure [HDI Spark Cluster](https://docs.microsoft.com/en-us/azure/hdinsight/spark/apache-spark-jupyter-spark-sql) to run the spark jobs provided in the example.
-All samples provided are in scala, built with maven. *Please note, this sample is configured against the 2.0.6 version of the spark connector.*
+This maven project provides samples and best practices for using the [DataStax Spark Cassandra Connector](https://github.com/datastax/spark-cassandra-connector) against [Azure Cosmos DB's Cassandra API](https://docs.microsoft.com/azure/cosmos-db/cassandra-introduction).
+For the purposes of providing an end-to-end sample, we've made use of an [Azure HDI Spark Cluster](https://docs.microsoft.com/azure/hdinsight/spark/apache-spark-jupyter-spark-sql) to run the spark jobs provided in the example.
+All samples provided are in scala, built with maven. 
+
+*Note - this sample is configured against the 2.0.6 version of the spark connector.*
 
 ## Running this Sample
 
 ### Prerequisites
-- A Cosmos DB Account configured with Cassandra API
-- A Spark Cluster
+- Cosmos DB Account configured with Cassandra API
+- Spark Cluster
 
-#Quick Start
-Information regarding submitting spark jobs is not covered as part of this sample, please refer to Apache Spark's [documentation](https://spark.apache.org/docs/latest/submitting-applications.html) for this.
+# Quick Start
+Information regarding submitting spark jobs is not covered as part of this sample, please refer to Apache Spark's [documentation](https://spark.apache.org/docs/latest/submitting-applications.html).
 In order run this sample, correctly configure the sample to your cluster(as discussed below), build the project, generate the required jar(s), and then submit the job to your spark cluster.
 
 ## Cassandra API Connection Parameters
-In order for your spark jobs to make connections with Cosmos DB's Cassandra API, you must set the following configurations. (All these values can be found on the "Connection String" blade of your CosmosDB Account).
+In order for your spark jobs to connect with Cosmos DB's Cassandra API, you must set the following configurations: 
+
+*Note - all these values can be found on the ["Connection String" blade](https://docs.microsoft.com/azure/cosmos-db/manage-account#keys) of your CosmosDB Account*
+
 <table class="table">
 <tr><th>Property Name</th><th>Value</th></tr>
 <tr>
@@ -40,7 +45,7 @@ In order for your spark jobs to make connections with Cosmos DB's Cassandra API,
 </table>
 
 ## Configurations for Throughput optimization
-As Cosmos DB follows a provisioned throughput model, it is important to tune the relevant configurations of the connector to optimize for this model.
+Because Cosmos DB follows a provisioned throughput model, it is important to tune the relevant configurations of the connector to optimize for this model.
 General information regarding these configurations can be found on the [Configuration Reference](https://github.com/datastax/spark-cassandra-connector/blob/master/doc/reference.md) page of the DataStax Spark Cassandra Connector github repository.
 <table class="table">
 <tr><th>Property Name</th><th>Description</th></tr>
@@ -80,22 +85,23 @@ General information regarding these configurations can be found on the [Configur
 
 Regarding throughput and degree of parallelism, it is important to tune the relevant parameters based on the amount of load you expect your upstream/downstream flows to be, the executors provisioned for your spark jobs, and the throughput you have provisioned for your Cosmos DB account.
 
-##Connection Factory Configuration and Retry Policy
-As part of this sample, we have provided a connection factory and custom retry policy for CosmosDB. We need a custom connection factory as that is the only way to configure a retry policy on the connector - [SPARKC-437](https://datastax-oss.atlassian.net/browse/SPARKC-437).
+## Connection Factory Configuration and Retry Policy
+As part of this sample, we have provided a connection factory and custom retry policy for Cosmos DB. We need a custom connection factory as that is the only way to configure a retry policy on the connector - [SPARKC-437](https://datastax-oss.atlassian.net/browse/SPARKC-437).
 * <code>CosmosDbConnectionFactory.scala</code>
 * <code>CosmosDbMultipleRetryPolicy.scala</code>
 
-###Retry Policy
-The retry policy for cosmos db is configured to handle 429 - Request Rate Large exceptions. The Cosmos Db Cassandra API, translates these exceptions to overloaded errors on the Cassandra native protocol, which we want to retry with back-offs.
-The reason for doing so is because Cosmos Db follows a provisioned throughput model, and having this retry policy would protect your spark jobs against spikes of data ingress/egress that would momentarily exceed the allocated throughput for your collection, resulting in the request rate limiting exceptions.
-*Please note, that this retry policy is meant to only protect your spark jobs against momentary spikes. If you have not configured enough RUs on your collection for the intended throughput of your workload such that the retries don't catch up, then the retry policy will result in rethrows*.
+### Retry Policy
+The retry policy for Cosmos DB is configured to handle http status code 429 - Request Rate Large exceptions. The Cosmos Db Cassandra API, translates these exceptions to overloaded errors on the Cassandra native protocol, which we want to retry with back-offs.
+The reason for doing so is because Cosmos DB follows a provisioned throughput model, and having this retry policy would protect your spark jobs against spikes of data ingress/egress that would momentarily exceed the allocated throughput for your collection, resulting in the request rate limiting exceptions.
 
-##Known Issues
+*Note - that this retry policy is meant to only protect your spark jobs against momentary spikes. If you have not configured enough RUs on your collection for the intended throughput of your workload such that the retries don't catch up, then the retry policy will result in rethrows.*
 
-###Left Join API on CassandraTable
+## Known Issues
+
+### Left Join API on CassandraTable
 Currently, there is an open bug when using the leftJoinWithCassandraTable on cassandraTable. This will be addressed soon, but in the meantime, please avoid using this API in your read paths of your spark jobs.
 
-###Tokens and Token Range Filters
+### Tokens and Token Range Filters
 We do not currently support methods that make use of Tokens for filtering data. Hence please avoid using any APIs that perform table scans.
 
 ## Resources
