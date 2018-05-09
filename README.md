@@ -98,9 +98,6 @@ The reason for doing so is because Cosmos DB follows a provisioned throughput mo
 
 ## Known Issues
 
-### Left Join API on CassandraTable
-Currently, there is an open bug when using the leftJoinWithCassandraTable on cassandraTable. This will be addressed soon, but in the meantime, please avoid using this API in your read paths of your spark jobs.
-
 ### Tokens and Token Range Filters
 We do not currently support methods that make use of Tokens for filtering data. Hence please avoid using any APIs that perform table scans.
 
