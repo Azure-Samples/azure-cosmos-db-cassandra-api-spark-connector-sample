@@ -4,11 +4,12 @@ languages:
 - scala
 products:
 - azure
-description: "This maven project provides samples and best practices for using the DataStax Spark Cassandra Connector against Azure Cosmos DB's Cassandra API"
+description: "This maven project provides samples and best practices for using the DataStax Spark Cassandra Connector against Azure Cosmos DB's Cassandra API."
 urlFragment: azure-cosmos-db-cassandra-api-spark-connector-sample
 ---
 
 # Azure Cosmos DB Cassandra API - Datastax Spark Connector Sample
+
 This maven project provides samples and best practices for using the [DataStax Spark Cassandra Connector](https://github.com/datastax/spark-cassandra-connector) against [Azure Cosmos DB's Cassandra API](https://docs.microsoft.com/azure/cosmos-db/cassandra-introduction).
 For the purposes of providing an end-to-end sample, we've made use of an [Azure HDI Spark Cluster](https://docs.microsoft.com/azure/hdinsight/spark/apache-spark-jupyter-spark-sql) to run the spark jobs provided in the example.
 All samples provided are in scala, built with maven. 
@@ -21,7 +22,7 @@ All samples provided are in scala, built with maven.
 - Cosmos DB Account configured with Cassandra API
 - Spark Cluster
 
-# Quick Start
+## Quick Start
 Information regarding submitting spark jobs is not covered as part of this sample, please refer to Apache Spark's [documentation](https://spark.apache.org/docs/latest/submitting-applications.html).
 In order run this sample, correctly configure the sample to your cluster(as discussed below), build the project, generate the required jar(s), and then submit the job to your spark cluster.
 
