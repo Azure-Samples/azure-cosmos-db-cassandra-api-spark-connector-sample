@@ -39,3 +39,12 @@ hs_err_pid*
 local.settings.json
 bin/
 obj/
+.metals/metals.h2.db
+.classpath
+.factorypath
+.project
+.metals/metals.lock.db
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.jdt.apt.core.prefs
+.settings/org.eclipse.m2e.core.prefs
+.vscode/settings.json
