@@ -62,7 +62,15 @@
             </plugin>
         </plugins>
     </build>
-        <scm>
+    <developers>
+        <developer>
+            <name>CosmosDB Programmability Devs</name>
+            <email>askcosmosdb@microsoft.com</email>
+            <organization>Microsoft</organization>
+            <organizationUrl>http://www.microsoft.com/</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
         <connection>scm:git:git@github.com:Azure-Samples/azure-cosmos-db-cassandra-api-spark-connector-sample.git</connection>
         <developerConnection>scm:git:git@github.com:Azure-Samples/azure-cosmos-db-cassandra-api-spark-connector-sample.git</developerConnection>
         <url>git@github.com:Azure-Samples/azure-cosmos-db-cassandra-api-spark-connector-sample.git</url>
